@@ -1,9 +1,9 @@
 # Infrastructure-as-Code: CV Delivery
 
-This repository contains the infrastructure automation logic for hosting and serving my professional CV at **[cv.aklein.pro](https://cv.aklein.pro)**.
+This repository contains the infrastructure automation logic for hosting and serving my professional CV at <a href="https://cv.aklein.pro" target="_blank">cv.aklein.pro</a>.
 
 ## 🌐 Live Production Site
-**URL:** [https://cv.aklein.pro](https://cv.aklein.pro)
+**URL:** <a href="https://cv.aklein.pro" target="_blank">https://cv.aklein.pro</a>
 
 ## 🏗️ The Approach
 As an Infrastructure Engineer, I prioritize managing assets through code rather than manual configuration. This project replaces traditional static hosting with a serverless, edge-delivered architecture designed for high availability and optimal user experience.
