@@ -1,6 +1,6 @@
 # Infrastructure-as-Code: CV Delivery
 
-This repository contains the infrastructure automation logic for hosting and serving my professional CV at **[cv.aklein.pro](https://aklein.pro)**.
+This repository contains the infrastructure automation logic for hosting and serving my professional CV at **[cv.aklein.pro](https://cv.aklein.pro)**.
 
 ## 🌐 Live Production Site
 **URL:** [https://cv.aklein.pro](https://cv.aklein.pro)
