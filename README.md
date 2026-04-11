@@ -2,8 +2,8 @@
 
 This repository contains the infrastructure automation logic for hosting and serving my professional CV at **[cv.aklein.pro](https://aklein.pro)**.
 
-## 🚀 Live Demo
-**URL:** [https://aklein.pro](https://aklein.pro)
+## 🌐 Live Production Site
+**URL:** [https://cv.aklein.pro](https://cv.aklein.pro)
 
 ## 🏗️ The Approach
 As an Infrastructure Engineer, I prioritize managing assets through code rather than manual configuration. This project replaces traditional static hosting with a serverless, edge-delivered architecture designed for high availability and optimal user experience.
