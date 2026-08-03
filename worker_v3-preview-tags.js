@@ -13,16 +13,16 @@ export default {
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Anthony Klein - Resume</title>
+            <title>AK - Resume</title>
             
             <meta property="og:type" content="website">
             <meta property="og:url" content="https://cv.aklein.pro/">
-            <meta property="og:title" content="Anthony Klein - Resume">
+            <meta property="og:title" content="AK - Resume">
             <meta property="og:description" content="Senior Systems & Infrastructure Engineer. Cloud architecture, SRE, IAM, and security automation.">
             <meta property="og:image" content="${bashFavicon}">
 
             <meta name="twitter:card" content="summary">
-            <meta name="twitter:title" content="Anthony Klein - Resume">
+            <meta name="twitter:title" content="AK - Resume">
             <meta name="twitter:description" content="Senior Systems & Infrastructure Engineer. Cloud architecture, SRE, IAM, and security automation.">
             <meta name="twitter:image" content="${bashFavicon}">
             
@@ -47,7 +47,7 @@ export default {
             </style>
           </head>
           <body>
-            <iframe src="/view-pdf" title="Anthony Klein Resume"></iframe>
+            <iframe src="/view-pdf" title="AK Resume"></iframe>
           </body>
         </html>`,
         { 
