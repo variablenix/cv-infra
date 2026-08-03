@@ -13,7 +13,7 @@ export default {
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Anthony Klein - Resume</title>
+            <title>AK - Resume</title>
             
             <link rel="icon" type="image/png" href="${bashFavicon}">
             
@@ -39,7 +39,7 @@ export default {
             </style>
           </head>
           <body>
-            <iframe src="/view-pdf" title="Anthony Klein Resume"></iframe>
+            <iframe src="/view-pdf" title="AK Resume"></iframe>
           </body>
         </html>`,
         { 
