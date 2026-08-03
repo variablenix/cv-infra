@@ -31,10 +31,10 @@ The deployment cannot upload a private CV on your behalf, so there is one final 
 1. Click **Deploy to Cloudflare** above and complete the Cloudflare setup flow.
 2. Open **R2 Object Storage** in the Cloudflare dashboard.
 3. Open the newly created `cv-assets` bucket.
-4. Upload your PDF using the object name expected by `worker.js`:
+4. Upload your PDF using this standard object name:
 
    ```text
-   Anthony_Klein_Senior_Infrastructure_Engineer.pdf
+   resume.pdf
    ```
 
 5. Return to **Workers & Pages**, open the new Worker, and optionally attach your own custom domain.
@@ -42,11 +42,13 @@ The deployment cannot upload a private CV on your behalf, so there is one final 
 
 The bucket starts with public access disabled. The Worker reads the PDF through the private R2 binding, so the PDF does not need a public bucket URL.
 
+New deployments use `resume.pdf` by default. The current production Worker also recognizes the existing production object name so the live CV continues working without a storage migration.
+
 ## Manual setup
 
 If you prefer to configure everything yourself:
 
-1. Create an R2 bucket and upload your PDF. Note the exact object key, including capitalization.
+1. Create an R2 bucket and upload your PDF as `resume.pdf`.
 2. Create a Worker and use `worker.js` as its entry point.
 3. Add an R2 bucket binding named `MY_BUCKET` that points to your bucket. The included `wrangler.jsonc` shows the equivalent configuration.
 4. Replace the domain, title, description, favicon URL, and PDF object key in `worker.js`.

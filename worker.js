@@ -61,7 +61,10 @@ export default {
 
     // 3. The Backend: Deliver the raw PDF to the iframe above
     if (url.pathname === '/view-pdf') {
-      const object = await env.MY_BUCKET.get('Anthony_Klein_Senior_Infrastructure_Engineer.pdf');
+      // New deployments use the generic key below. The fallback keeps the
+      // existing production bucket working without renaming its current PDF.
+      const object = await env.MY_BUCKET.get('resume.pdf') ??
+        await env.MY_BUCKET.get('Anthony_Klein_Senior_Infrastructure_Engineer.pdf');
 
       if (object === null) {
         return new Response('Resume Not Found', { status: 404 });
