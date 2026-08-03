@@ -2,8 +2,6 @@
 
 This is the small Cloudflare Worker behind [cv.aklein.pro](https://cv.aklein.pro).
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/variablenix/cv-infra)
-
 The idea is intentionally simple: keep the PDF in Cloudflare R2, use a Worker to fetch it, and let the browser render it inline. The Worker also provides a lightweight HTML wrapper with the page title, social preview metadata, favicon, and a full-screen PDF iframe.
 
 ## How it is set up
@@ -23,6 +21,8 @@ Anthony_Klein_Senior_Infrastructure_Engineer.pdf
 R2 public access is disabled. The Worker reads the object through its binding, so the PDF does not need to be exposed as a public R2 bucket. Requests to `/` receive the HTML wrapper; requests to `/view-pdf` receive the PDF with `Content-Type: application/pdf` and `Content-Disposition: inline`.
 
 ## Quick deploy
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/variablenix/cv-infra)
 
 The **Deploy to Cloudflare** button is the quickest way to create your own copy. Cloudflare uses `wrangler.jsonc` to create an R2 bucket named `cv-assets`, bind it to the Worker as `MY_BUCKET`, and deploy the Worker to your account.
 
