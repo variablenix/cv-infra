@@ -1,21 +1,81 @@
 export default {
   async fetch(request, env) {
-    // Fetches the specific PDF from your R2 bucket binding
-    const object = await env.MY_BUCKET.get('Anthony_Klein_Resume.pdf');
+    const url = new URL(request.url);
 
-    if (object === null) {
-      return new Response('Resume Not Found in Bucket', { status: 404 });
+    // 1. Define the Bash logo as the favicon/asset source
+    const bashFavicon = "https://aklein.pro/assets/Bash_Logo_Colored.png";
+
+    // 2. Serve the HTML wrapper to enable custom Favicon + Title + Mobile Icons
+    if (url.pathname === '/') {
+      return new Response(
+        `<!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>AK | Senior Infrastructure Engineer</title>
+
+            <meta property="og:type" content="website">
+            <meta property="og:url" content="https://cv.aklein.pro/">
+            <meta property="og:title" content="AK | Senior Infrastructure Engineer">
+            <meta property="og:description" content="Senior Systems & Infrastructure Engineer. Specializing in IT Operations, SRE, IAM, and automated security infrastructure.">
+            <meta property="og:image" content="${bashFavicon}">
+
+            <meta name="twitter:card" content="summary">
+            <meta name="twitter:title" content="AK | Senior Infrastructure Engineer">
+            <meta name="twitter:description" content="Senior Systems & Infrastructure Engineer. Specializing in IT Operations, SRE, IAM, and automated security infrastructure.">
+            <meta name="twitter:image" content="${bashFavicon}">
+
+            <link rel="icon" type="image/png" href="${bashFavicon}">
+            <link rel="apple-touch-icon" href="${bashFavicon}">
+            <link rel="icon" sizes="192x192" href="${bashFavicon}">
+
+            <style>
+              body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                overflow: hidden;
+                background-color: #323639;
+              }
+              iframe {
+                width: 100%;
+                height: 100%;
+                border: none;
+              }
+            </style>
+          </head>
+          <body>
+            <iframe src="/view-pdf" title="AK | Senior Infrastructure Engineer"></iframe>
+          </body>
+        </html>`,
+        {
+          headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+            'Link': `<${bashFavicon}>; rel=preload; as=image`
+          }
+        }
+      );
     }
 
-    const headers = new Headers();
-    object.writeHttpMetadata(headers);
-    
-    // SRE Logic: Force the browser to render the PDF natively
-    headers.set('Content-Type', 'application/pdf');
-    headers.set('Content-Disposition', 'inline');
-    headers.set('Cache-Control', 'public, max-age=3600');
+    // 3. The Backend: Deliver the raw PDF to the iframe above
+    if (url.pathname === '/view-pdf') {
+      const object = await env.MY_BUCKET.get('Anthony_Klein_Senior_Infrastructure_Engineer.pdf');
 
-    return new Response(object.body, { headers });
-  },
+      if (object === null) {
+        return new Response('Resume Not Found', { status: 404 });
+      }
+
+      const headers = new Headers();
+      object.writeHttpMetadata(headers);
+
+      headers.set('Content-Type', 'application/pdf');
+      headers.set('Content-Disposition', 'inline');
+
+      return new Response(object.body, { headers });
+    }
+
+    return new Response('Not Found', { status: 404 });
+  }
 };
-
