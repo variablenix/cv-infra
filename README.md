@@ -2,6 +2,8 @@
 
 This is the small Cloudflare Worker behind [cv.aklein.pro](https://cv.aklein.pro).
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/variablenix/cv-infra)
+
 The idea is intentionally simple: keep the PDF in Cloudflare R2, use a Worker to fetch it, and let the browser render it inline. The Worker also provides a lightweight HTML wrapper with the page title, social preview metadata, favicon, and a full-screen PDF iframe.
 
 ## How it is set up
@@ -20,13 +22,33 @@ Anthony_Klein_Senior_Infrastructure_Engineer.pdf
 
 R2 public access is disabled. The Worker reads the object through its binding, so the PDF does not need to be exposed as a public R2 bucket. Requests to `/` receive the HTML wrapper; requests to `/view-pdf` receive the PDF with `Content-Type: application/pdf` and `Content-Disposition: inline`.
 
-## Deploying your own version
+## Quick deploy
 
-If you want to use the same pattern for your own CV:
+The **Deploy to Cloudflare** button is the quickest way to create your own copy. Cloudflare uses `wrangler.jsonc` to create an R2 bucket named `cv-assets`, bind it to the Worker as `MY_BUCKET`, and deploy the Worker to your account.
+
+The deployment cannot upload a private CV on your behalf, so there is one final manual step:
+
+1. Click **Deploy to Cloudflare** above and complete the Cloudflare setup flow.
+2. Open **R2 Object Storage** in the Cloudflare dashboard.
+3. Open the newly created `cv-assets` bucket.
+4. Upload your PDF using the object name expected by `worker.js`:
+
+   ```text
+   Anthony_Klein_Senior_Infrastructure_Engineer.pdf
+   ```
+
+5. Return to **Workers & Pages**, open the new Worker, and optionally attach your own custom domain.
+6. Test the Worker URL and its `/view-pdf` path.
+
+The bucket starts with public access disabled. The Worker reads the PDF through the private R2 binding, so the PDF does not need a public bucket URL.
+
+## Manual setup
+
+If you prefer to configure everything yourself:
 
 1. Create an R2 bucket and upload your PDF. Note the exact object key, including capitalization.
-2. Create a Worker and paste in `worker.js`.
-3. Add an R2 bucket binding named `MY_BUCKET` that points to your bucket.
+2. Create a Worker and use `worker.js` as its entry point.
+3. Add an R2 bucket binding named `MY_BUCKET` that points to your bucket. The included `wrangler.jsonc` shows the equivalent configuration.
 4. Replace the domain, title, description, favicon URL, and PDF object key in `worker.js`.
 5. Deploy the Worker and attach a custom domain or route to it.
 6. Open both `/` and `/view-pdf` to confirm that the wrapper and the PDF work independently.
