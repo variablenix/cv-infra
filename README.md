@@ -72,4 +72,25 @@ The older `worker_v2.js` and `worker_v3-preview-tags.js` versions were removed o
 
 ## Updating the CV
 
-Upload the replacement PDF to the same R2 object key. Since the Worker looks up the object on each request, the code does not need to change when the CV itself changes.
+Upload the replacement PDF to the same R2 object key. Eligible public GET responses
+for `/` and `/view-pdf` are cached with Cloudflare's Cache API at the edge for up to
+15 minutes and in browsers for up to 5 minutes. Allow up to 20 minutes for returning
+visitors to see replacements. Purging both URLs from Cloudflare refreshes the edge
+sooner, but does not clear copies already held in browsers.
+
+Requests with authentication, cookies, conditional or range headers, query strings,
+or explicit `Cache-Control`/`Pragma` headers bypass the Worker-managed cache. Only
+successful 200 responses without `Set-Cookie` or `Vary` are stored. R2 response
+policies containing `private`, `no-store`, or `no-cache` are preserved and bypass
+caching. Cache failures fall back to normal delivery. This reduces R2 reads; each
+network request still invokes the Worker. This is a cache optimization, not an
+authentication mechanism.
+
+## Testing
+
+Run the dependency-free cache and delivery regression tests with Node.js 22 or
+newer:
+
+```bash
+node --test tests/worker.test.mjs
+```
